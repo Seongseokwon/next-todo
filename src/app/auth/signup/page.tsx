@@ -2,8 +2,10 @@
 import {ChangeEvent, FormEvent, useState} from "react";
 import {useInput} from "@/hooks/useInput";
 import {emailValidator, passwordValidator} from "@/utils/validator";
+import {useRouter} from "next/navigation";
 
 export default function SignupPage() {
+    const router = useRouter();
     const signupInfoInputs = useInput(
         {
             email: '',
@@ -67,7 +69,7 @@ export default function SignupPage() {
             body: JSON.stringify(signupInfoInputs.value)
         })
         if (!res.ok) return;
-        console.log('SIGNUP SUCCESS');
+        router.push('/api/auth/signin');
     }
 
     return <div>
