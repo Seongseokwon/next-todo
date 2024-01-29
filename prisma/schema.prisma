@@ -24,7 +24,7 @@ model User {
   nickname        String   @unique
   maxExpTodoDaily Int      @default(7)
   level           Level    @relation(fields: [levelId], references: [id])
-  levelId         Int
+  levelId         Int      @default(1)
   todos           Todo[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

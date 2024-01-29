@@ -14,9 +14,20 @@ export const authOptions = {
             },
             async authorize(credentials, req) {
                 // Add logic here to look up the user from the credentials supplied
-                console.log(credentials);
-                const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
+                console.log('Credentials', credentials);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type' : 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: credentials?.email,
+                        password: credentials?.password,
+                    })
+                });
 
+                const user = await res.json();
+                console.log('USER ##', user);
                 if (user) {
                     // Any object returned will be saved in `user` property of the JWT
                     return user
