@@ -1,6 +1,7 @@
 import "./globals.css";
 import NextAuthProvider from "@/provider/NextAuthProvider";
 import ReduxProvider from "@/redux/provider";
+import {CookiesProvider} from "next-client-cookies/server";
 
 export const metadata = {
     title: "Create Next App",
@@ -16,7 +17,9 @@ export default function RootLayout({children}: Readonly<{
         <body>
         <NextAuthProvider>
             <ReduxProvider>
-                {children}
+                <CookiesProvider>
+                    {children}
+                </CookiesProvider>
             </ReduxProvider>
         </NextAuthProvider>
         </body>

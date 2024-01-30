@@ -27,7 +27,7 @@ export default function SignInPage() {
                 email: loginInfo.email,
                 password: loginInfo.password,
                 redirect: true,
-                callbackUrl: '/todo'
+                callbackUrl: '/'
             })
         } catch (e) {
             console.log(e);

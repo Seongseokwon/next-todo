@@ -2,7 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import {PrismaClient} from '@prisma/client';
 import {emailValidator, passwordValidator} from "@/utils/validator";
 import {encryption} from "@/utils/encrypt";
-import {prisma} from "@/prisma/index";
+import {prisma} from "@/lib/prisma/prisma";
 
 export async function POST(req: NextRequest) {
     try {
