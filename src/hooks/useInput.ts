@@ -10,6 +10,6 @@ export const useInput = <T>(initialValue: T) => {
         setValue((prev) => ({...prev, [name]: value}));
     },[])
 
-    console.log('tset2');
+    console.log('tset3');
     return {value, onChange: handleValueChange};
 }
