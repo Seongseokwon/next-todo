@@ -13,7 +13,7 @@ datasource db {
 model Level {
   id            Int    @id @default(autoincrement())
   level         Int
-  maxExperience Int
+  maxExperience Int    @map("max_experience")
   user          User[]
 }
 
@@ -22,13 +22,13 @@ model User {
   email             String
   password          String
   nickname          String   @unique
-  maxExpTodoDaily   Int      @default(7)
-  currentExperience Int      @default(0)
+  maxExpTodoDaily   Int      @default(7) @map("max_exp_todo_daily")
+  currentExperience Int      @default(0) @map("current_experience")
   level             Level    @relation(fields: [levelId], references: [id])
-  levelId           Int      @default(1)
+  levelId           Int      @default(1) @map("level_id")
   todos             Todo[]
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
 }
 
 enum PRIORITY {
@@ -42,9 +42,9 @@ model Todo {
   title       String
   description String?
   priority    PRIORITY
-  completed   Boolean
+  completed   Boolean  @default(false)
   user        User     @relation(fields: [userId], references: [id])
-  userId      Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  userId      Int      @map("user_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 }
