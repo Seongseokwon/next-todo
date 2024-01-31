@@ -1,9 +1,19 @@
+'use client';
+
+import styles from './BottomNavigation.module.scss';
 import { FaHome, FaListUl, FaRegUserCircle, FaChartBar } from "react-icons/fa";
+import {useRouter} from "next/navigation";
 export default function BottomNavigation() {
-    return <nav>
-        <button type="button"><FaHome /></button>
-        <button type="button"><FaListUl /></button>
-        <button type="button"><FaChartBar /></button>
-        <button type="button"><FaRegUserCircle /></button>
+    const router = useRouter();
+
+    const handleRouter = (des: string) => {
+        router.push(des);
+    }
+
+    return <nav className={styles['bottom-navigation']}>
+        <button type="button" onClick={() => handleRouter('/')}><FaHome /></button>
+        <button type="button" onClick={() => handleRouter('/todo')}><FaListUl /></button>
+        <button type="button" onClick={() => handleRouter('/rank')}><FaChartBar /></button>
+        <button type="button" onClick={() => handleRouter('/my-page')}><FaRegUserCircle /></button>
     </nav>
 }
