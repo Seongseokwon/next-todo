@@ -18,16 +18,17 @@ model Level {
 }
 
 model User {
-  id              Int      @id @default(autoincrement())
-  email           String
-  password        String
-  nickname        String   @unique
-  maxExpTodoDaily Int      @default(7)
-  level           Level    @relation(fields: [levelId], references: [id])
-  levelId         Int      @default(1)
-  todos           Todo[]
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                Int      @id @default(autoincrement())
+  email             String
+  password          String
+  nickname          String   @unique
+  maxExpTodoDaily   Int      @default(7)
+  currentExperience Int      @default(0)
+  level             Level    @relation(fields: [levelId], references: [id])
+  levelId           Int      @default(1)
+  todos             Todo[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 enum PRIORITY {
