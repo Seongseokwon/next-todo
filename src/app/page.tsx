@@ -17,7 +17,7 @@ export default function Home({}) {
     return (
         <>
             <h1>HOME</h1>
-            <button type='button' onClick={() => router.push('/auth/signIn')}>로그인</button>
+            <button type='button' onClick={() => router.push('/api/auth/signin')}>로그인</button>
             <button type='button' onClick={() => signOut()}> 로그아웃</button>
         </>
     )

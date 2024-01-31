@@ -5,7 +5,7 @@ interface SignOption {
 }
 
 const DEFAULT_SIGN_OPTION: SignOption = {
-    expiresIn: '1h'
+    expiresIn: '3h'
 }
 const secretKey = process.env.NEXT_PUBLIC_JWT_SECRET_KEY;
 
