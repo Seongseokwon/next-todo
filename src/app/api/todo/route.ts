@@ -2,12 +2,9 @@ import {NextRequest, NextResponse} from "next/server";
 import {PRIORITY} from "@/types/Todo";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
-import {NextApiResponse} from "next";
 import {verifyJwt} from "@/utils/jwt";
 import {cookies} from "next/headers";
 import {prisma} from "@/lib/prisma/prisma";
-import {Todo} from "@prisma/client";
-import {Prisma} from ".prisma/client";
 
 interface TodoRegister {
     title: string;
@@ -16,10 +13,13 @@ interface TodoRegister {
 }
 
 function formatSearchDate(date: string) {
+
     const formatDate = new Date(date);
-    const startDate = new Date(formatDate.getFullYear(), formatDate.getMonth(), formatDate.getDate() - 1);
-    const lastDayOfMonth = new Date(formatDate.getFullYear(), formatDate.getMonth() + 1, 0).getDate();
-    const endDate = new Date(formatDate.getFullYear(), formatDate.getMonth(), lastDayOfMonth, 23, 59, 59);
+
+    const endDateOfMonth = new Date(formatDate.getFullYear(), formatDate.getMonth() + 1, 0).getDate();
+
+    const startDate = new Date(formatDate.getFullYear(), formatDate.getMonth() , formatDate.getDate());
+    const endDate = new Date(formatDate.getFullYear(), formatDate.getMonth() , endDateOfMonth, 23, 59, 59);
 
     return {startDate, endDate}
 }
@@ -66,6 +66,8 @@ export async function GET(req: NextRequest) {
     const {id} = (userInfo);
     const {startDate, endDate} = formatSearchDate(selectDate!);
 
+    console.log('Start Date', startDate);
+    console.log('End Date', endDate);
     const calendarData = await prisma.$queryRaw`
         SELECT to_char("Todo"."created_at", 'DD') as date,
             json_agg(
@@ -74,7 +76,7 @@ export async function GET(req: NextRequest) {
                     'title',title,
                     'description',description,
                     'priority',priority,
-                    'completed',completed,
+                    'completed',completed
                 )
             ) AS todos,
             Count(*) as total, 
