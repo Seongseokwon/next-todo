@@ -12,18 +12,6 @@ interface TodoRegister {
     priority: PRIORITY
 }
 
-function formatSearchDate(date: string) {
-
-    const formatDate = new Date(date);
-
-    const endDateOfMonth = new Date(formatDate.getFullYear(), formatDate.getMonth() + 1, 0).getDate();
-
-    const startDate = new Date(formatDate.getFullYear(), formatDate.getMonth() , formatDate.getDate());
-    const endDate = new Date(formatDate.getFullYear(), formatDate.getMonth() , endDateOfMonth, 23, 59, 59);
-
-    return {startDate, endDate}
-}
-
 export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions);
     const body: TodoRegister = await req.json();
@@ -55,7 +43,8 @@ export async function GET(req: NextRequest) {
     const session = await getServerSession(authOptions);
     const userInfo = verifyJwt(session!.user.accessToken)
     const cookieStore = cookies();
-    const selectDate = req.nextUrl.searchParams.get('selectedDate');
+    const month = req.nextUrl.searchParams.get('month');
+
     if (!session || !userInfo) {
         cookieStore.delete('next-auth.session-token');
         return new NextResponse('Session Expired', {
@@ -64,12 +53,9 @@ export async function GET(req: NextRequest) {
         })
     }
     const {id} = (userInfo);
-    const {startDate, endDate} = formatSearchDate(selectDate!);
 
-    console.log('Start Date', startDate);
-    console.log('End Date', endDate);
     const calendarData = await prisma.$queryRaw`
-        SELECT to_char("Todo"."created_at", 'DD') as date,
+        SELECT CAST(to_char("Todo"."created_at" AT TIME ZONE 'Asia/Seoul', 'DD') as int) as date,
             json_agg(
                 json_build_object(
                     'id', id,
@@ -79,12 +65,11 @@ export async function GET(req: NextRequest) {
                     'completed',completed
                 )
             ) AS todos,
-            Count(*) as total, 
-            Sum(case when "Todo".completed = true then 1 else 0 end) as completed
+            CAST(Count(*) as int) as total, 
+            CAST(Sum(case when "Todo".completed = true then 1 else 0 end) as int) as completed
         from "Todo"
         where "Todo".user_id = ${id}
-          AND ("Todo".created_at >= ${startDate}
-          AND "Todo".created_at <= ${endDate})
+          AND EXTRACT(MONTH from ("Todo".created_at AT TIME ZONE 'Asia/Seoul'))= CAST(${month} as int)
         group by date
         order by date`;
 

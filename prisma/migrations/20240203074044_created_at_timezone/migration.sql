@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Todo" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMPTZ;
+
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMPTZ;
