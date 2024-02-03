@@ -6,20 +6,33 @@ import styles from './Calendar.module.scss';
 import CalendarDay from "@/components/calendar/CalendarDay";
 
 interface CalendarProps {
-    selectedDate: Date;
-    changeSelectDate: (date: Date) => void;
+    date: Date;
+    changeMonth: (d:Date) => void;
+    changeDate: (d: Date) => void;
 }
 
 const dayOfWeek = [
     '일', '월', '화', '수', '목', '금', '토',
 ]
-export default function Calendar({selectedDate, changeSelectDate}: CalendarProps) {
+export default function Calendar({date, changeMonth, changeDate}: CalendarProps) {
     const [calendar, setCalendar] = useState<any[][]>([]);
     const [calendarLoad, setCalendarLoad] = useState<boolean>(false);
-    const [displayMonth, setDisplayMonth] = useState<Date>(selectedDate)
+    const [selectedDate, setSelectedDate] = useState<Date>(date || new Date());
+    const [displayMonth, setDisplayMonth] = useState<Date>(date || new Date())
 
     const selectDateChange = (day: number) => {
-        changeSelectDate(new Date(displayMonth.getFullYear(), displayMonth.getMonth(), day));
+        setSelectedDate(new Date(displayMonth.getFullYear(), displayMonth.getMonth(), day));
+        changeDate(new Date(displayMonth.getFullYear(), displayMonth.getMonth(), day));
+    }
+
+    const displayMonthChange = (type: 'prev' | 'next') => {
+        const year = displayMonth.getFullYear();
+        let month = 0;
+        if (type === 'prev') month = displayMonth.getMonth() - 1;
+        else month = displayMonth.getMonth() + 1;
+
+        setDisplayMonth(() => new Date(year, month, 1));
+        changeMonth(new Date(year, month, 1));
     }
 
     const generateCalendar = () => {
@@ -50,14 +63,19 @@ export default function Calendar({selectedDate, changeSelectDate}: CalendarProps
 
     useEffect(() => {
         generateCalendar();
-    }, []);
+    }, [displayMonth]);
+
+    useEffect(() => {
+
+    }, [selectedDate])
+
     const showMonth = displayMonth.getFullYear() + '년 ' + (displayMonth.getMonth() + 1) + '월'
 
     return <div className={styles['calendar']}>
         <header className={styles['calendar__header']}>
-            <button type="button"><SlArrowLeft/></button>
+            <button type="button" onClick={() => displayMonthChange('prev')}><SlArrowLeft/></button>
             <h2>{showMonth}</h2>
-            <button type="button"><SlArrowRight/></button>
+            <button type="button" onClick={() => displayMonthChange('next')}><SlArrowRight/></button>
         </header>
         <main className={styles['calendar__content']}>
             {/*캘린더 요일*/}
@@ -65,7 +83,7 @@ export default function Calendar({selectedDate, changeSelectDate}: CalendarProps
                 <section className={styles['calendar__content__day-section']}>
                     {calendar.map((week, i) =>
                         week.map((day, j) => (
-                            <CalendarDay key={j} week={i}>{day}</CalendarDay>
+                            <CalendarDay selectedDateChange={selectDateChange} key={j} week={i} day={day} />
                         ))
                     )}
                 </section>
