@@ -6,11 +6,14 @@ interface TodoItemProps {
     todo: Todo
 }
 export default function TodoItem({todo}: TodoItemProps) {
+    console.log(todo);
     return <div>
-        <section><input type="checkbox"/></section>
+        <section>
+            <input type="checkbox"/>
+        </section>
         <section>
             <div>
-                <Circle size={'md'} />
+                <Circle size={'md'} status={todo.completed ? 'completed' : 'failed'}/>
                 <h3>{todo.title}</h3>
             </div>
             <div>

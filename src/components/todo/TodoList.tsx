@@ -1,12 +1,16 @@
-import {PRIORITY, Todo} from "@/types/Todo";
-import TodoItem from "@/components/todo/TodoItem";
+import {PRIORITY} from "@/types/Todo";
 import styles from './Todo.module.scss';
 import {FormEvent, useState} from "react";
 import {useInput} from "@/hooks/useInput";
 import {useAppSelector} from "@/redux/hooks";
+import TodoItem from "@/components/todo/TodoItem";
 
-export default function TodoList() {
-    const todos = useAppSelector((state) => state.todoReducer)
+interface TodoListProps {
+    selectedDate: Date
+}
+
+export default function TodoList({selectedDate}: TodoListProps) {
+    const {todoData} = useAppSelector((state) => state.todoReducer)
     const todoRegisterInputs = useInput({
         title: '',
         description: ''
@@ -26,12 +30,15 @@ export default function TodoList() {
         })
         if (!res.ok) return;
         console.log(res.json());
-
-
     }
 
     return <div>
-        {todos.map(todo => (<TodoItem key={todo.id} todo={todo}/>))}
+        {
+            todoData.filter(todos => todos.day === selectedDate.getDate())[0]?.todos
+                .map(todo => (
+                <TodoItem key={todo.id} todo={todo}/>
+                ))
+        }
 
         <form className={styles['todo-register']} onSubmit={handleSubmit}>
             <div className={styles['todo-register__title-box']}>
