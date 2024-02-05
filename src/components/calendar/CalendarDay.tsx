@@ -6,10 +6,15 @@ import {TodoData} from "@/types/Todo";
 interface CalendarDayProps {
     day: TodoData;
     week: number;
+    selected: boolean
     selectedDateChange: (day: number) => void;
 }
-export default function CalendarDay({ week, day, selectedDateChange}: CalendarDayProps) {
-
+export default function CalendarDay({ week, day, selected, selectedDateChange}: CalendarDayProps) {
+    const calendarDayClasses = `
+        ${styles['calendar-day']} 
+        ${day.day === 0 || week === 0 ?  '' : styles['real']}
+        ${selected ? styles['selected'] : ''}
+    `;
     const selectDate = (day:number) => {
         selectedDateChange(day);
     }
@@ -22,7 +27,7 @@ export default function CalendarDay({ week, day, selectedDateChange}: CalendarDa
         return todoData.completed/ todoData.total === 1 ? 'completed' : 'failed'
     }
 
-    return <div role='presentation' className={styles['calendar-day']} onClick={() => {
+    return <div role='presentation' className={calendarDayClasses} onClick={() => {
         if (week === 0) return;
         selectDate(day.day);
     }}>

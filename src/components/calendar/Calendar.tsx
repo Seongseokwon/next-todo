@@ -3,9 +3,9 @@ import {SlArrowLeft, SlArrowRight} from "react-icons/sl";
 import Circle from "@/components/ui/circle/Circle";
 
 import styles from './Calendar.module.scss';
-import CalendarDay from "@/components/calendar/CalendarDay";
 import {useAppSelector} from "@/redux/hooks";
 import {TodoData} from "@/types/Todo";
+import CalendarWeek from "@/components/calendar/CalendarWeek";
 
 export interface CalendarProps {
     date: Date;
@@ -71,7 +71,6 @@ export default function Calendar({date, changeMonth, changeDate}: CalendarProps)
     }
 
     useEffect(() => {
-        console.log(todoData);
         generateCalendar();
     }, [todoData]);
 
@@ -92,9 +91,7 @@ export default function Calendar({date, changeMonth, changeDate}: CalendarProps)
             {calendarLoad ?
                 <section className={styles['calendar__content__day-section']}>
                     {calendar.map((week, i) =>
-                        week.map((day, j) => (
-                            <CalendarDay selectedDateChange={selectDateChange} key={j} week={i} day={day} />
-                        ))
+                        (<CalendarWeek key={i} idx={i} week={week} selectDate={selectedDate} displayMonth={displayMonth} selectedDateChange={selectDateChange}/>)
                     )}
                 </section>
                 :

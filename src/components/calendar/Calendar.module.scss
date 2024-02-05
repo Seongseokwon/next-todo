@@ -9,7 +9,7 @@
 
     &__day-section {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(1, 1fr);
     }
 
     &__skeleton {
@@ -27,21 +27,39 @@
     }
   }
 }
+.calendar-week {
+  border-bottom: 1px solid #eeeeee;
+  display: grid;
+  grid-template-columns: repeat(7 , 1fr);
+}
 
 .calendar-day {
-  padding: 10px;
-  border: 1px solid blue;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 75px;
-  height: 75px;
-  &:hover,
-  &:focus {
+  box-sizing: border-box;
+  width: 50px;
+  height: 50px;
+
+  &.real {
+    &.selected {
+      background-color: #3ff5b0;
+      border-radius: 50%;
+      font-weight: bold;
+
+      &.real:hover,
+      &.real:focus {
+        background-color: #3ff5b0;
+        cursor: default;
+      }
+    }
+  }
+
+  &.real:hover,
+  &.real:focus {
     background-color: #cdf6e7;
     border-radius: 50%;
     cursor: pointer;
-
   }
 }
