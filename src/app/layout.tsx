@@ -19,6 +19,7 @@ export default function RootLayout({children}: Readonly<{
             <ReduxProvider>
                 <CookiesProvider>
                     {children}
+                    <div id='root-modal'/>
                 </CookiesProvider>
             </ReduxProvider>
         </NextAuthProvider>
