@@ -4,10 +4,11 @@ import {PRIORITY} from "@/types/Todo";
 import styles from './TodoModal.module.scss';
 
 interface TodoCreateModalProps {
+    selectedDate: Date;
     callback: (type: string) => void;
 }
 
-export default function TodoCreateModal({callback}: TodoCreateModalProps) {
+export default function TodoCreateModal({selectedDate, callback}: TodoCreateModalProps) {
     const todoRegisterInputs = useInput({
         title: '',
         description: ''
@@ -17,8 +18,15 @@ export default function TodoCreateModal({callback}: TodoCreateModalProps) {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        const registerData = {...todoRegisterInputs.value, priority}
+        const today= new Date();
+        const registerData = {
+            ...todoRegisterInputs.value,
+            priority,
+            expiredAt: new Date(
+                selectedDate.getFullYear(),
+                selectedDate.getMonth(), selectedDate.getDate(),
+                today.getHours(), today.getMinutes(), today.getSeconds())
+        }
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todo`, {
             method: 'POST',

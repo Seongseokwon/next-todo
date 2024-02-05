@@ -61,7 +61,7 @@ export default function TodoTemplate() {
                 openModals.filter(modal =>
                     modal.name === 'TodoCreate')[0]?.isOpen ?
                     <Modal
-                        children={<TodoCreateModal callback={addTodoSuccess}/>}
+                        children={<TodoCreateModal selectedDate={date} callback={addTodoSuccess}/>}
                         modalInfo={{title: '할일 등록', name: 'TodoCreate'}}
                     /> : ''
             }
@@ -76,7 +76,7 @@ export default function TodoTemplate() {
             openModals.filter(modal =>
                 modal.name === 'TodoCreate')[0]?.isOpen ?
                 <Modal
-                    children={<TodoCreateModal callback={addTodoSuccess}/>}
+                    children={<TodoCreateModal selectedDate={date} callback={addTodoSuccess}/>}
                     modalInfo={{title: '할일 등록', name: 'TodoCreate'}}
                 /> : ''
         }

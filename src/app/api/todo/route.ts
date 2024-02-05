@@ -9,7 +9,8 @@ import {prisma} from "@/lib/prisma/prisma";
 interface TodoRegister {
     title: string;
     description?: string;
-    priority: PRIORITY
+    priority: PRIORITY,
+    expiredAt: Date
 }
 
 export async function POST(req: NextRequest) {
@@ -31,11 +32,10 @@ export async function POST(req: NextRequest) {
             title: body.title,
             description: body.description || '',
             priority: body.priority,
-            userId: userInfo.id
+            userId: userInfo.id,
+            expiredAt: body.expiredAt
         }
     })
-
-    console.log(res);
     return NextResponse.json({message: 'register success'});
 }
 
@@ -55,21 +55,22 @@ export async function GET(req: NextRequest) {
     const {id} = (userInfo);
 
     const calendarData = await prisma.$queryRaw`
-        SELECT CAST(to_char("Todo"."created_at" AT TIME ZONE 'Asia/Seoul', 'DD') as int) as day,
+        SELECT CAST(to_char("Todo"."expired_at" AT TIME ZONE 'Asia/Seoul', 'DD') as int) as day,
             json_agg(
                 json_build_object(
                     'id', id,
                     'title',title,
                     'description',description,
                     'priority',priority,
-                    'completed',completed
+                    'completed',completed,
+                    'createdAt', created_at
                 )
             ) AS todos,
             CAST(Count(*) as int) as total, 
             CAST(Sum(case when "Todo".completed = true then 1 else 0 end) as int) as completed
         from "Todo"
         where "Todo".user_id = ${id}
-          AND EXTRACT(MONTH from ("Todo".created_at AT TIME ZONE 'Asia/Seoul'))= CAST(${month} as int)
+          AND EXTRACT (MONTH from ("Todo".expired_at AT TIME ZONE 'Asia/Seoul'))= CAST (${month} as int)
         group by day
         order by day`;
 
