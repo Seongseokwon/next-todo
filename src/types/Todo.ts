@@ -10,6 +10,11 @@ export interface Todo {
     description?: string;
     priority: PRIORITY;
     completed: boolean;
-    createdAt: string;
-    updatedAt: string;
+}
+
+export interface TodoData {
+    day: number;
+    todos: Todo[];
+    total: number;
+    completed: number;
 }
