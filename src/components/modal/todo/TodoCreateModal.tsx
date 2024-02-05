@@ -1,24 +1,21 @@
-'use client';
-
 import {useInput} from "@/hooks/useInput";
 import {FormEvent, useState} from "react";
 import {PRIORITY} from "@/types/Todo";
 import styles from './TodoModal.module.scss';
-import { FaTimes } from "react-icons/fa";
-import useModal from "@/hooks/useModal";
 
+interface TodoCreateModalProps {
+    callback: (type: string) => void;
+}
 
-export default function TodoCreateModal () {
+export default function TodoCreateModal({callback}: TodoCreateModalProps) {
     const todoRegisterInputs = useInput({
         title: '',
         description: ''
     })
     const [priority, setPriority] = useState<PRIORITY>(PRIORITY.MEDIUM)
-    const {close} = useModal();
-    const closeModal = ( ) => {
-        close('TodoCreate');
-    }
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>)=> {
+
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const registerData = {...todoRegisterInputs.value, priority}
@@ -31,14 +28,12 @@ export default function TodoCreateModal () {
             body: JSON.stringify(registerData)
         })
         if (!res.ok) return;
-        console.log(res.json());
+        todoRegisterInputs.resetValue();
+        callback('success');
+
     }
 
     return <form className={styles['todo-register']} onSubmit={handleSubmit}>
-        <header className={styles['todo-register__header']}>
-            <h2>할 일 등록</h2>
-            <button type='button' onClick={closeModal}><FaTimes /></button>
-        </header>
         <div className={styles['todo-register__title-box']}>
             <input type='text' name='title' value={todoRegisterInputs.value.title}
                    onChange={todoRegisterInputs.onChange}/>

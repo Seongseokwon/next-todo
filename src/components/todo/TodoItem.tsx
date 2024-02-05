@@ -1,19 +1,25 @@
-import {Todo} from "@/types/Todo";
-import { FaRegTrashAlt } from "react-icons/fa";
+import {PRIORITY, Todo} from "@/types/Todo";
+import {FaRegTrashAlt} from "react-icons/fa";
 import Circle from "@/components/ui/circle/Circle";
 
 interface TodoItemProps {
     todo: Todo
 }
+
+
 export default function TodoItem({todo}: TodoItemProps) {
-    console.log(todo);
+    const priorityToString = () => {
+        if (todo.priority === PRIORITY.HIGH) return 'high';
+        else if (todo.priority === PRIORITY.MEDIUM) return 'medium';
+        else return  'low'
+    }
     return <div>
         <section>
             <input type="checkbox"/>
         </section>
         <section>
             <div>
-                <Circle size={'md'} status={todo.completed ? 'completed' : 'failed'}/>
+                <Circle size={'md'} status={priorityToString()}/>
                 <h3>{todo.title}</h3>
             </div>
             <div>
