@@ -33,13 +33,21 @@
       border:1px solid #18d918;
       background-color: #18d918;
     }
+    &.high,
     &.failed{
       border:1px solid #f51212;
       background-color: #f51212;
     }
+
+    &.medium{
+      border:1px solid #fc941e;
+      background-color: #fc941e;
+    }
     &.proceeding{}
+
     &.not-yet,
-    &.default{
+    &.default,
+    &.low{
       border:1px solid #e1e1e1;
       background-color: #e1e1e1;
     }

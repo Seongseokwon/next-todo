@@ -3,7 +3,7 @@ import styles from './Circle.module.scss';
 
 interface CircleStylesProps {
     size: 'xsm' | 'sm' | 'md' | 'lg' | 'xlg';
-    status: 'completed' | 'failed' |  'proceeding' |'not-yet' | 'default';
+    status: 'high'| 'medium'| 'low' | 'completed' | 'failed' |  'proceeding' |'not-yet' | 'default';
 
 }
 interface CircleProps extends CircleStylesProps{
