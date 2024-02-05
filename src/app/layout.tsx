@@ -1,4 +1,4 @@
-import "./globals.css";
+import "./globals.scss";
 import NextAuthProvider from "@/provider/NextAuthProvider";
 import ReduxProvider from "@/redux/provider";
 import {CookiesProvider} from "next-client-cookies/server";
