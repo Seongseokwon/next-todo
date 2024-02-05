@@ -55,7 +55,7 @@ export async function GET(req: NextRequest) {
     const {id} = (userInfo);
 
     const calendarData = await prisma.$queryRaw`
-        SELECT CAST(to_char("Todo"."created_at" AT TIME ZONE 'Asia/Seoul', 'DD') as int) as date,
+        SELECT CAST(to_char("Todo"."created_at" AT TIME ZONE 'Asia/Seoul', 'DD') as int) as day,
             json_agg(
                 json_build_object(
                     'id', id,
@@ -70,8 +70,8 @@ export async function GET(req: NextRequest) {
         from "Todo"
         where "Todo".user_id = ${id}
           AND EXTRACT(MONTH from ("Todo".created_at AT TIME ZONE 'Asia/Seoul'))= CAST(${month} as int)
-        group by date
-        order by date`;
+        group by day
+        order by day`;
 
     const stringify = JSON.stringify(calendarData, (key, value) => (typeof value === 'bigint' ? value.toString() : value));
 
