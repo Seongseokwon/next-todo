@@ -1,6 +1,7 @@
 import {PRIORITY, Todo} from "@/types/Todo";
 import {FaRegTrashAlt} from "react-icons/fa";
 import Circle from "@/components/ui/circle/Circle";
+import styles from './Todo.module.scss';
 
 interface TodoItemProps {
     todo: Todo
@@ -13,19 +14,21 @@ export default function TodoItem({todo}: TodoItemProps) {
         else if (todo.priority === PRIORITY.MEDIUM) return 'medium';
         else return  'low'
     }
-    return <div>
-        <section>
+    return <div className={`${styles['todo-item']}`}>
+        <section className={styles['todo-item__checkbox']}>
             <input type="checkbox"/>
         </section>
-        <section>
-            <div>
-                <Circle size={'md'} status={priorityToString()}/>
-                <h3>{todo.title}</h3>
+        <section className={styles['todo-item__todo-info']}>
+            <div className={styles['todo-item__todo-info__title']}>
+                <Circle size={'sm'} status={priorityToString()}/>
+                <h3 title={todo.title}>{todo.title}</h3>
             </div>
-            <div>
+            <div title={todo?.description} className={styles['todo-item__todo-info__description']}>
                 {todo?.description}
             </div>
         </section>
-        <section><button type={'button'}><FaRegTrashAlt /></button></section>
+        <section className={styles['todo-item__control-box']}>
+            <button className={styles['todo-item__control-box__delete-btn']} type={'button'}><FaRegTrashAlt /></button>
+        </section>
     </div>
 }
