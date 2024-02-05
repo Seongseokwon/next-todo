@@ -4,22 +4,24 @@ import Circle from "@/components/ui/circle/Circle";
 
 import styles from './Calendar.module.scss';
 import CalendarDay from "@/components/calendar/CalendarDay";
+import {useAppSelector} from "@/redux/hooks";
+import {TodoData} from "@/types/Todo";
 
-interface CalendarProps {
+export interface CalendarProps {
     date: Date;
     changeMonth: (d:Date) => void;
     changeDate: (d: Date) => void;
 }
 
 const dayOfWeek = [
-    '일', '월', '화', '수', '목', '금', '토',
+    {day: '일'}, {day: '월'}, {day:'화'}, {day:'수'}, {day:'목'}, {day:'금'}, {day:'토'},
 ]
 export default function Calendar({date, changeMonth, changeDate}: CalendarProps) {
     const [calendar, setCalendar] = useState<any[][]>([]);
     const [calendarLoad, setCalendarLoad] = useState<boolean>(false);
     const [selectedDate, setSelectedDate] = useState<Date>(date || new Date());
     const [displayMonth, setDisplayMonth] = useState<Date>(date || new Date())
-
+    const {todoData} = useAppSelector((state) => state.todoReducer);
     const selectDateChange = (day: number) => {
         setSelectedDate(new Date(displayMonth.getFullYear(), displayMonth.getMonth(), day));
         changeDate(new Date(displayMonth.getFullYear(), displayMonth.getMonth(), day));
@@ -45,25 +47,33 @@ export default function Calendar({date, changeMonth, changeDate}: CalendarProps)
         const startDay = new Date(year, month, 1).getDay();
         const lastDate = new Date(year, month + 1, 0).getDate();
 
+
         for (let i = 0; i < startDay; i++) {
-            temp.push(0);
+            let emptyData: TodoData = {day: 0, todos: [], total:0, completed:0}
+            temp.push(emptyData);
         }
 
         for (let i = 1; i <= lastDate; i++) {
-            temp.push(i);
+            let emptyData: TodoData = {day: i, todos: [], total:0, completed:0}
+            const setTodos = todoData.filter(data => i === data.day)[0];
+            const updateData = {...emptyData, ...setTodos};
+            temp.push(updateData);
         }
 
         while (temp.length > 0) {
             calendarData.push(temp.splice(0, 7));
         }
+        console.log(calendarData)
+
         const result = [[...dayOfWeek], ...calendarData];
         setCalendar(() => result);
         setCalendarLoad(true);
     }
 
     useEffect(() => {
+        console.log(todoData);
         generateCalendar();
-    }, [displayMonth]);
+    }, [todoData]);
 
     useEffect(() => {
 
@@ -95,12 +105,12 @@ export default function Calendar({date, changeMonth, changeDate}: CalendarProps)
             {/* Todo 진행 현황 요약   */}
             <section className={styles['calendar__content__summary']}>
                 <div className={styles['calendar__content__summary__item']}>
-                    <Circle size={'sm'}>
+                    <Circle size={'sm'} status={'completed'}>
                         완료
                     </Circle>
                 </div>
                 <div className={styles['calendar__content__summary__item']}>
-                    <Circle size={'sm'}>
+                    <Circle size={'sm'} status={'failed'}>
                         미완료
                     </Circle>
                 </div>
