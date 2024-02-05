@@ -4,10 +4,8 @@
   align-items: center;
   gap: 1%;
   .circle {
-
-    border:1px solid red;
     border-radius: 50%;
-
+    // size
     &.xsm {
       width: 10px;
       height: 10px;
@@ -28,5 +26,23 @@
       width: 30px;
       height: 30px;
     }
+    // end size
+
+    // status
+    &.completed{
+      border:1px solid #18d918;
+      background-color: #18d918;
+    }
+    &.failed{
+      border:1px solid #f51212;
+      background-color: #f51212;
+    }
+    &.proceeding{}
+    &.not-yet,
+    &.default{
+      border:1px solid #e1e1e1;
+      background-color: #e1e1e1;
+    }
+    // end status
   }
 }
