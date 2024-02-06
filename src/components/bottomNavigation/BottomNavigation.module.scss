@@ -1,5 +1,15 @@
 .bottom-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 5px;
+  gap: 5px;
   button {
     cursor: pointer;
+    font-size: 18px;
+
+    &:hover {
+      color: #18d918;
+    }
   }
 }

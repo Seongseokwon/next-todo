@@ -6,6 +6,7 @@ import { FiPlusCircle } from "react-icons/fi";
 import {useRouter} from "next/navigation";
 import {useAppDispatch} from "@/redux/hooks";
 import useModal from "@/hooks/useModal";
+import Button from "@/components/ui/button/Button";
 export default function BottomNavigation() {
     const router = useRouter();
     const {open} = useModal();
@@ -17,10 +18,10 @@ export default function BottomNavigation() {
         open('TodoCreate');
     }
     return <nav className={styles['bottom-navigation']}>
-        <button type="button" onClick={() => handleRouter('/')}><FaHome /></button>
-        <button type="button" onClick={() => handleRouter('/todo')}><FaListUl /></button>
-        <button type="button" onClick={handleAddTodo}><FiPlusCircle /></button>
-        <button type="button" onClick={() => handleRouter('/rank')}><FaChartBar /></button>
-        <button type="button" onClick={() => handleRouter('/my-page')}><FaRegUserCircle /></button>
+        <Button onClick={() => handleRouter('/')}><FaHome /></Button>
+        <Button onClick={() => handleRouter('/todo')}><FaListUl /></Button>
+        <Button onClick={handleAddTodo}><FiPlusCircle /></Button>
+        <Button onClick={() => handleRouter('/rank')}><FaChartBar /></Button>
+        <Button onClick={() => handleRouter('/my-page')}><FaRegUserCircle /></Button>
     </nav>
 }
