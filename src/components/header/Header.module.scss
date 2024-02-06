@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+
+  h1 {
+    font-size: 24px;
+    font-weight: 500;
+  }
+  button {
+    font-size: 16px;
+    color: #bbbaba;
+
+    &:hover {
+      color: #494949;
+    }
+  }
+}

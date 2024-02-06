@@ -8,6 +8,8 @@ import {setTodos} from "@/redux/features/todos/todosSlice";
 import Modal from "@/components/modal/Modal";
 import TodoCreateModal from "@/components/modal/todo/TodoCreateModal";
 import useModal from "@/hooks/useModal";
+import styles from './Todo.module.scss';
+import Button from "@/components/ui/button/Button";
 
 type ViewModeType = 'CALENDAR' | 'LIST';
 export default function TodoTemplate() {
@@ -54,9 +56,9 @@ export default function TodoTemplate() {
 
 
     if (viewMode === 'CALENDAR') {
-        return <Fragment>
+        return <div className={styles['todo-container']}>
             <Calendar date={date} changeMonth={handleCalendarChange} changeDate={handleDateChange}/>
-            <button type='button' onClick={handleViewModeChange}>리스트 보기</button>
+            <Button onClick={handleViewModeChange}>리스트 보기</Button>
             {
                 openModals.filter(modal =>
                     modal.name === 'TodoCreate')[0]?.isOpen ?
@@ -65,13 +67,13 @@ export default function TodoTemplate() {
                         modalInfo={{title: '할일 등록', name: 'TodoCreate'}}
                     /> : ''
             }
-        </Fragment>
+        </div>
     }
 
-    return <Fragment>
+    return <div className={styles['todo-container']}>
         <TodoHeader selectedDate={date}/>
         <TodoList selectedDate={date}/>
-        <button type='button' onClick={handleViewModeChange}>달력 보기</button>
+        <Button onClick={handleViewModeChange}>달력 보기</Button>
         {
             openModals.filter(modal =>
                 modal.name === 'TodoCreate')[0]?.isOpen ?
@@ -80,5 +82,5 @@ export default function TodoTemplate() {
                     modalInfo={{title: '할일 등록', name: 'TodoCreate'}}
                 /> : ''
         }
-    </Fragment>
+    </div>
 }

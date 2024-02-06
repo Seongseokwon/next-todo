@@ -10,7 +10,7 @@ interface ButtonStyleProps {
 interface ButtonProps extends ButtonStyleProps {
     children: ReactNode;
     type?: 'button' | 'submit' | 'reset';
-    onClick: () => void;
+    onClick?: () => void;
 }
 
 export default function Button(

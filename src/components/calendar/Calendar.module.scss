@@ -1,12 +1,28 @@
 .calendar {
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
   &__header {
     display: flex;
+    align-items: center;
+
+    h2 {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    button {
+      color: #b9b9b9;
+    }
   }
   &__content {
     display: flex;
     flex-direction: column;
-
+    justify-content: center;
+    align-items: center;
     &__day-section {
       display: grid;
       grid-template-columns: repeat(1, 1fr);
@@ -27,6 +43,7 @@
     }
   }
 }
+
 .calendar-week {
   border-bottom: 1px solid #eeeeee;
   display: grid;

@@ -6,6 +6,7 @@ import styles from './Calendar.module.scss';
 import {useAppSelector} from "@/redux/hooks";
 import {TodoData} from "@/types/Todo";
 import CalendarWeek from "@/components/calendar/CalendarWeek";
+import Button from "@/components/ui/button/Button";
 
 export interface CalendarProps {
     date: Date;
@@ -82,10 +83,11 @@ export default function Calendar({date, changeMonth, changeDate}: CalendarProps)
 
     return <div className={styles['calendar']}>
         <header className={styles['calendar__header']}>
-            <button type="button" onClick={() => displayMonthChange('prev')}><SlArrowLeft/></button>
+            <Button borderStyle='none' onClick={() => displayMonthChange('prev')}><SlArrowLeft/></Button>
             <h2>{showMonth}</h2>
-            <button type="button" onClick={() => displayMonthChange('next')}><SlArrowRight/></button>
+            <Button borderStyle='none' onClick={() => displayMonthChange('next')}><SlArrowRight/></Button>
         </header>
+
         <main className={styles['calendar__content']}>
             {/*캘린더 요일*/}
             {calendarLoad ?

@@ -1,12 +1,12 @@
 import {Fragment, ReactNode} from "react";
 import styles from './Circle.module.scss';
 
-interface CircleStylesProps {
+interface CircleStyleProps {
     size: 'xsm' | 'sm' | 'md' | 'lg' | 'xlg';
     status: 'high'| 'medium'| 'low' | 'completed' | 'failed' |  'proceeding' |'not-yet' | 'default';
 
 }
-interface CircleProps extends CircleStylesProps{
+interface CircleProps extends CircleStyleProps{
     children?: ReactNode
 }
 export default function Circle({children, size = 'sm', status='default'}: CircleProps) {

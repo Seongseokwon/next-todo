@@ -21,10 +21,14 @@ export default function CalendarDay({ week, day, selected, selectedDateChange}: 
 
     const circleStatusCheck = (todoData: TodoData) => {
         const today = new Date();
-        if(todoData.day > today.getDate()) return 'not-yet';
-        if(todoData.total === 0) return 'not-yet';
+        if(todoData.day > today.getDate() || todoData.total === 0) return 'not-yet';
 
-        return todoData.completed/ todoData.total === 1 ? 'completed' : 'failed'
+        if(todoData.day === today.getDate()){
+            if (todoData.completed/ todoData.total === 1 ) return 'completed';
+            else return 'proceeding';
+        }
+
+        return 'failed';
     }
 
     return <div role='presentation' className={calendarDayClasses} onClick={() => {
