@@ -1,0 +1,31 @@
+.btn{
+  cursor: pointer;
+  border-radius: 10px;
+
+
+  &.xsm{
+    width: 100px;
+  }
+  &.sm{
+    width: 120px;
+  }
+  &.md{
+    padding: 20px;
+  }
+  &.lg{
+    width: 170px;
+  }
+  &.xlg{
+    width: 190px;
+  }
+
+  &.default {
+    border: 1px solid #f5f5f5;
+    background-color: #f5f5f5;
+  }
+
+  &.none {
+    border: none;
+    background: none;
+  }
+}
