@@ -43,6 +43,7 @@ model Todo {
   description String?
   priority    PRIORITY
   completed   Boolean  @default(false)
+  expEarned   Boolean  @default(false) @map("exp_earned")
   user        User     @relation(fields: [userId], references: [id])
   userId      Int      @map("user_id")
   expiredAt   DateTime @map("expired_at")

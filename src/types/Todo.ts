@@ -10,6 +10,7 @@ export interface Todo {
     description?: string;
     priority: PRIORITY;
     completed: boolean;
+    expEarned: boolean;
 }
 
 export interface TodoData {
