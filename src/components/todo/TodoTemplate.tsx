@@ -10,6 +10,8 @@ import TodoCreateModal from "@/components/modal/todo/TodoCreateModal";
 import useModal from "@/hooks/useModal";
 import styles from './Todo.module.scss';
 import Button from "@/components/ui/button/Button";
+import {Todo} from "@/types/Todo";
+import {useSession} from "next-auth/react";
 
 type ViewModeType = 'CALENDAR' | 'LIST';
 export default function TodoTemplate() {
@@ -17,6 +19,7 @@ export default function TodoTemplate() {
     const [viewMode, setViewMode] = useState<ViewModeType>('CALENDAR');
     const {openModals} = useAppSelector((state) => state.modalReducer);
     const dispatch = useAppDispatch();
+    const {update} = useSession();
     const {close} = useModal();
     const getMonthlyData = async (curDate: Date = date) => {
         const month = (curDate.getMonth() + 1).toString()
@@ -47,7 +50,20 @@ export default function TodoTemplate() {
         if (type !== 'success') return;
         close('TodoCreate');
         getMonthlyData();
+    }
 
+    const updateTodoStatus = async (todo: Todo) => {
+        console.log(todo);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/todo`,{
+            method: 'PATCH',
+            headers: {
+                'Content-Type'  : 'application/json'
+            },
+            body: JSON.stringify(todo)
+        });
+        if (!res.ok) return;
+        await update();
+        console.log(await res.json());
     }
 
     useEffect(() => {
@@ -72,7 +88,7 @@ export default function TodoTemplate() {
 
     return <div className={styles['todo-container']}>
         <TodoHeader selectedDate={date}/>
-        <TodoList selectedDate={date}/>
+        <TodoList selectedDate={date} updateTodoStatus={updateTodoStatus}/>
         <Button onClick={handleViewModeChange}>달력 보기</Button>
         {
             openModals.filter(modal =>

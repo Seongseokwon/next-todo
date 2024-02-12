@@ -28,6 +28,8 @@ export default function CalendarDay({ week, day, selected, selectedDateChange}: 
             else return 'proceeding';
         }
 
+        if (todoData.completed/ todoData.total === 1 ) return 'completed';
+
         return 'failed';
     }
 

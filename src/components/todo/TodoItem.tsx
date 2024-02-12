@@ -5,18 +5,23 @@ import styles from './Todo.module.scss';
 
 interface TodoItemProps {
     todo: Todo
+    updateTodoStatus: (todo:Todo) => void
 }
 
 
-export default function TodoItem({todo}: TodoItemProps) {
+export default function TodoItem({todo, updateTodoStatus}: TodoItemProps) {
     const priorityToString = () => {
         if (todo.priority === PRIORITY.HIGH) return 'high';
         else if (todo.priority === PRIORITY.MEDIUM) return 'medium';
         else return  'low'
     }
+
+    const updateTodo = () => {
+        updateTodoStatus(todo);
+    }
     return <div className={`${styles['todo-item']}`}>
         <section className={styles['todo-item__checkbox']}>
-            <input type="checkbox"/>
+            <input type="checkbox" onChange={updateTodo} value={''} checked={todo.completed}/>
         </section>
         <section className={styles['todo-item__todo-info']}>
             <div className={styles['todo-item__todo-info__title']}>
